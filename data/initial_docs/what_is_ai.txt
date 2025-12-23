@@ -1,0 +1,4 @@
+Artificial Intelligence (AI) refers to the simulation of human intelligence in machines.
+These systems are designed to perform tasks such as learning, reasoning, problem-solving,
+and decision-making. AI systems can be categorized into narrow AI, which performs a
+specific task, and general AI, which can perform any intellectual task that a human can do.

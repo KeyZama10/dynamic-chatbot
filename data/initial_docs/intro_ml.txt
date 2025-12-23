@@ -1,0 +1,4 @@
+Machine Learning is a subset of Artificial Intelligence that enables systems to learn from
+data without being explicitly programmed. Machine learning models identify patterns
+in data and make predictions or decisions based on those patterns. Common types of
+machine learning include supervised learning, unsupervised learning, and reinforcement learning.
