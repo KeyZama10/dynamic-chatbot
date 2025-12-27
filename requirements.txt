@@ -4,3 +4,4 @@ sentence-transformers
 langchain
 langchain-community
 python-dotenv
+pysqlite3-binary

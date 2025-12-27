@@ -1,37 +1,27 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import chromadb
 from sentence_transformers import SentenceTransformer
+import os
 
 # 1. Load the AI model
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# 2. Connect to the database in your 'vectordb' folder
-client = chromadb.PersistentClient(path="vectordb")
+# 2. Connect to the database with a specific cloud path
+persist_path = "./vectordb"
+client = chromadb.PersistentClient(path=persist_path)
+
+# 3. Fail-safe collection retrieval
 collection = client.get_or_create_collection("knowledge_base")
 
 def ask_question(query):
-    # Convert your question into a math format the AI understands
     query_embedding = model.encode([query]).tolist()
+    results = collection.query(query_embeddings=query_embedding, n_results=3)
 
-    # Look for the top 3 most relevant pieces of information
-    results = collection.query(
-        query_embeddings=query_embedding,
-        n_results=3
-    )
+    if not results["documents"] or not results["documents"][0]:
+        return "The AI brain is currently empty. You need to upload your data files to GitHub."
 
-    # Combine the found text into one answer
     context = "\n".join(results["documents"][0])
-
-    if not context.strip():
-        return "I don't have enough information to answer this yet."
-
     return f"\nBased on the available knowledge:\n{context}"
-
-# 3. Create a loop so you can keep asking questions
-print("--- AI Chatbot Started! (Type 'quit' to stop) ---")
-while True:
-    user_query = input("\nAsk a question: ")
-    if user_query.lower() == 'quit':
-        break
-    
-    answer = ask_question(user_query)
-    print(answer)
