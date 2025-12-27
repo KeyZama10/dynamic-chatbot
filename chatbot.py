@@ -6,7 +6,7 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 
 # 2. Connect to the database in your 'vectordb' folder
 client = chromadb.PersistentClient(path="vectordb")
-collection = client.get_collection("knowledge_base")
+collection = client.get_or_create_collection("knowledge_base")
 
 def ask_question(query):
     # Convert your question into a math format the AI understands
